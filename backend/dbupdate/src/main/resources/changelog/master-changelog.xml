@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <include file="changelog/changes/dbchangelog-changelog.xml"/>
+    <include file="changelog/changes/user-changelog.xml"/>
+    <include file="changelog/changes/profile-changelog.xml"/>
+    <include file="changelog/changes/employee-changelog.xml" />
+    <include file="changelog/changes/project-status-changelog.xml" />
+    <include file="changelog/changes/project-category-changelog.xml" />
+    <include file="changelog/changes/team-changelog.xml" />
+    <include file="changelog/changes/project-changelog.xml" />
+    <include file="changelog/changes/workflow-changelog.xml" />
+    <include file="changelog/changes/workflow-status-changelog.xml" />
+    <include file="changelog/changes/kanban-changelog.xml" />
+    <include file="changelog/changes/task-changelog.xml" />
+    <include file="changelog/changes/permission-changelog.xml" />
+</databaseChangeLog>

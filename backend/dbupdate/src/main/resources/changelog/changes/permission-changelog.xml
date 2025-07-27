@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="permission-27072025J-1" author="Joao">
+        <createTable tableName="permission">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="module" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="permission-27072025J-2" author="Joao">
+        <createTable tableName="profile_permission">
+            <column name="profile_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="profile_permission" columnNames="profile_id, permission_id" constraintName="pk_profile_permission"/>
+        <addForeignKeyConstraint baseTableName="profile_permission"
+                                 baseColumnNames="profile_id"
+                                 referencedTableName="profile"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_profile_permission_profile"/>
+        <addForeignKeyConstraint baseTableName="profile_permission"
+                                 baseColumnNames="permission_id"
+                                 referencedTableName="permission"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_profile_permission_permission"/>
+    </changeSet>
+    <changeSet id="permission-27072025J-3" author="Joao">
+        <insert tableName="permission">
+            <column name="module" value="EMPLOYEE"/>
+            <column name="permission_name" value="READ"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="EMPLOYEE"/>
+            <column name="permission_name" value="CREATE"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="EMPLOYEE"/>
+            <column name="permission_name" value="MODIFY"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="EMPLOYEE"/>
+            <column name="permission_name" value="DELETE"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="EMPLOYEE"/>
+            <column name="permission_name" value="VIEW"/>
+        </insert>
+
+        <insert tableName="permission">
+            <column name="module" value="TEAM"/>
+            <column name="permission_name" value="READ"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TEAM"/>
+            <column name="permission_name" value="CREATE"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TEAM"/>
+            <column name="permission_name" value="MODIFY"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TEAM"/>
+            <column name="permission_name" value="VIEW"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TEAM"/>
+            <column name="permission_name" value="DELETE"/>
+        </insert>
+
+        <insert tableName="permission">
+            <column name="module" value="PROJECT"/>
+            <column name="permission_name" value="READ"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="PROJECT"/>
+            <column name="permission_name" value="CREATE"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="PROJECT"/>
+            <column name="permission_name" value="MODIFY"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="PROJECT"/>
+            <column name="permission_name" value="DELETE"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="PROJECT"/>
+            <column name="permission_name" value="VIEW"/>
+        </insert>
+
+        <insert tableName="permission">
+            <column name="module" value="TASK"/>
+            <column name="permission_name" value="READ"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TASK"/>
+            <column name="permission_name" value="CREATE"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TASK"/>
+            <column name="permission_name" value="MODIFY"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TASK"/>
+            <column name="permission_name" value="DELETE"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="module" value="TASK"/>
+            <column name="permission_name" value="VIEW"/>
+        </insert>
+    </changeSet>
+    <changeSet id="permission-27072025J-4" author="Joao" runOnChange="true">
+        <sql>
+            INSERT INTO profile_permission (profile_id, permission_id)
+            SELECT p.id, perm.id FROM profile p, permission perm
+            WHERE p.name = 'DEV' AND perm.module = 'EMPLOYEE';
+        </sql>
+        <sql>
+            INSERT INTO profile_permission (profile_id, permission_id)
+            SELECT p.id, perm.id FROM profile p, permission perm
+            WHERE p.name = 'DEV' AND perm.module = 'TEAM';
+        </sql>
+        <sql>
+            INSERT INTO profile_permission (profile_id, permission_id)
+            SELECT p.id, perm.id FROM profile p, permission perm
+            WHERE p.name = 'DEV' AND perm.module = 'PROJECT';
+        </sql>
+        <sql>
+            INSERT INTO profile_permission (profile_id, permission_id)
+            SELECT p.id, perm.id FROM profile p, permission perm
+            WHERE p.name = 'DEV' AND perm.module = 'TASK';
+        </sql>
+    </changeSet>
+</databaseChangeLog>

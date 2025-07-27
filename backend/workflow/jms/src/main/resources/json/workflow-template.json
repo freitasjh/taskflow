@@ -1,0 +1,34 @@
+{
+  "listStatus": [
+    {
+      "name": "backlog",
+      "description": "Inicio do fluxo de trabalho",
+      "order": 1,
+      "finish": false,
+      "initial": true
+    },
+    {
+      "name": "TODO",
+      "description": "Tarefas a serem realizadas",
+      "order": 2,
+      "finish": false,
+      "initial": false
+
+    },
+    {
+      "name": "INICIADO",
+      "description": "Tarefas iniciadas",
+      "order": 3,
+      "finish": false,
+      "initial": false
+
+    },
+    {
+      "name": "Finalizado",
+      "description": "Finalizada",
+      "order": 4,
+      "initial": false,
+      "finish": true
+    }
+  ]
+}

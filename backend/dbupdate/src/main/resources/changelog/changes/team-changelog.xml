@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="team-14062025J-1" author="Joao">
+        <createTable tableName="team">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="date_created" type="timestamp"/>
+            <column name="date_updated" type="timestamp"/>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="unique_team_name"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="team-members-14062025J-2" author="Joao">
+        <createTable tableName="team_members">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="team_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="timestamp"/>
+            <column name="date_updated" type="timestamp"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="team_members"
+                                 baseColumnNames="team_id"
+                                 constraintName="fk_team_members_team_id"
+                                 referencedTableName="team"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="team_members"
+                                 baseColumnNames="employee_id"
+                                 constraintName="fk_team_members_employee_id"
+                                 referencedTableName="employee"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

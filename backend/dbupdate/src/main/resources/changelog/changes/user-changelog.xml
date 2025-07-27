@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+<changeSet id="user-22052025-J1" author="Joao">
+    <createTable tableName="task_flow_user">
+        <column autoIncrement="true" name="id" type="INT8">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="username" type="varchar(255)">
+            <constraints nullable="false" unique="true" uniqueConstraintName="unique_user_username"/>
+        </column>
+        <column name="email" type="varchar(255)">
+            <constraints nullable="false" unique="true" uniqueConstraintName="unique_user_email"/>
+        </column>
+        <column name="password" type="varchar(255)"/>
+        <column name="user_type" type="int4" />
+    </createTable>
+</changeSet>
+    <changeSet id="25052025J-3" author="Joao">
+        <insert tableName="task_flow_user">
+            <column name="username" value="admin" />
+            <column name="password" value="$2a$10$iG30jSZbWLJmaQFkaoEg8.fW1Qkem9lRgCHBBabc7FLrZ83L8rfW." />
+            <column name="email" value="admin@admin.com.br" />
+        </insert>
+    </changeSet>
+</databaseChangeLog>

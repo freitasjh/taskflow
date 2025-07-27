@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="task-09072025J-1" author="Joao">
+        <createTable tableName="task">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="date_created" type="timestamp" />
+            <column name="date_updated" type="timestamp" />
+            <column name="code" type="VARCHAR(255)" />
+            <column name="description" type="VARCHAR(255)" />
+            <column name="date_close" type="TIMESTAMP" />
+            <column name="status" type="int4" />
+            <column name="workflow_status" type="int8" />
+            <column name="project_id" type="int8" />
+            <column name="created_by" type="int8" >
+                <constraints nullable="false" />
+            </column>
+            <column name="accountable" type="int8" />
+            <column name="task_priority" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="observation" type="TEXT" />
+        </createTable>
+        <addForeignKeyConstraint baseTableName="task"
+                                 baseColumnNames="created_by"
+                                 constraintName="fk_task_employee_id"
+                                 referencedTableName="employee"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="task"
+                                 baseColumnNames="project_id"
+                                 constraintName="fk_task_project_id"
+                                 referencedTableName="project"
+                                 referencedColumnNames="id" />
+        <createSequence sequenceName="task_cod_seq" startValue="1" />
+    </changeSet>
+    <changeSet id="task-09072025J-2" author="Joao">
+        <createTable tableName="task_comment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="date_created" type="timestamp" />
+            <column name="date_updated" type="timestamp" />
+            <column name="created_by" type="int8" />
+            <column name="content" type="text" />
+            <column name="task_id" type="int8">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="task_comment"
+                                 baseColumnNames="task_id"
+                                 constraintName="fk_task_comment_task_id"
+                                 referencedTableName="task"
+                                 referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>

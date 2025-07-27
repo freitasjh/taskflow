@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="status-25062025J-1" author="Joao">
+        <createTable tableName="status">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="date_created" type="timestamp"/>
+            <column name="date_updated" type="timestamp"/>
+            <column name="name" type="varchar(255)" />
+            <column name="description" type="varchar(255)"/>
+            <column name="status_order" type="int4" defaultValue="0" />
+            <column name="workflow_id" type="int8" />
+            <column name="initial" type="boolean" defaultValue="false"/>
+            <column name="finish" type="boolean" defaultValue="false"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="status" baseColumnNames="workflow_id"
+                                 constraintName="fk_status_workflow_id"
+                                 referencedTableName="workflow"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+</databaseChangeLog>
