@@ -122,4 +122,40 @@ public class WorkflowServiceImpl implements WorkflowService {
 
         return StatusConverter.toVO(status);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public StatusVO getInitialStatusByProjectId(Long projectId) throws BaseException {
+        try {
+            Workflow workflow = repository.findByProjectId(projectId)
+                    .orElseThrow(() -> new WorkflowException(I18nTranslate.toLocale("workflow.not.found.by.project")));
+
+            return workflow.getListOfStatus().stream().filter(Status::isInitial)
+                    .findFirst()
+                    .map(StatusConverter::toVO)
+                    .orElseThrow(() -> new WorkflowException(I18nTranslate.toLocale("workflow.status.initial.not.found")));
+        } catch (BaseException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Erro ao buscar o status inicial do workflow pelo ID do projeto", e);
+            throw new WorkflowException(I18nTranslate.toLocale("workflow.status.initial.not.found"), e);
+        }
+    }
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public WorkflowVO findWorkflowByProjectId(Long projectId) throws BaseException {
+        try {
+            Workflow workflow = repository.findByProjectId(projectId)
+                    .orElseThrow(() -> new WorkflowException(I18nTranslate.toLocale("workflow.not.found.by.project")));
+
+            return WorkflowConverter.toVO(workflow);
+        } catch (BaseException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Erro ao buscar o workflow pelo ID do projeto", e);
+            throw new WorkflowException(I18nTranslate.toLocale("workflow.not.found.by.project"), e);
+        }
+    }
 }

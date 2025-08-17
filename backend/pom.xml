@@ -27,8 +27,8 @@
         <module>team</module>
         <module>task</module>
         <module>workflow</module>
-        <module>kanban</module>
         <module>rabbitmq</module>
+        <module>board</module>
     </modules>
 
     <build>

@@ -30,9 +30,7 @@ export const routes = [
             {
                 path: "kanban-board",
                 component: () =>
-                    import(
-                        "@/administrator/kanban/layout/kanban-board-layout.vue"
-                    ),
+                    import("@/kanban/layout/kanban-board-layout.vue"),
             },
             {
                 path: "project-status",

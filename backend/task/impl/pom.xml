@@ -50,10 +50,6 @@
         </dependency>
         <dependency>
             <groupId>br.com.systec.taskflow</groupId>
-            <artifactId>taskflow-kanban-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>br.com.systec.taskflow</groupId>
             <artifactId>taskflow-workflow-api</artifactId>
         </dependency>
         <!-- Testes -->

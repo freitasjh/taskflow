@@ -32,9 +32,10 @@ class EmployeeServiceImplTest {
     @Mock
     private ResourceBundleMessageSource messageSource;
     @InjectMocks
-    private EmployeeServiceImpl employeeService;
-    @InjectMocks
     private I18nTranslate i18nTranslate;
+    @InjectMocks
+    private EmployeeServiceImpl employeeService;
+
 
     @BeforeEach
     void setUp() {

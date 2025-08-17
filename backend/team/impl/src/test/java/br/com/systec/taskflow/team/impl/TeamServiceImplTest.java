@@ -3,6 +3,8 @@ package br.com.systec.taskflow.team.impl;
 import br.com.systec.taskflow.commons.exceptions.BaseException;
 import br.com.systec.taskflow.commons.exceptions.ObjectNotFoundException;
 import br.com.systec.taskflow.employee.api.model.Employee;
+import br.com.systec.taskflow.i18n.I18nTranslate;
+import br.com.systec.taskflow.team.api.TeamException;
 import br.com.systec.taskflow.team.api.model.Team;
 import br.com.systec.taskflow.team.api.model.TeamMembers;
 import br.com.systec.taskflow.team.api.vo.TeamVO;
@@ -17,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -31,12 +34,15 @@ class TeamServiceImplTest {
 
     @Mock
     private TeamRepository repository;
-
     @Mock
     private TeamRepositoryJpa repositoryJpa;
-
     @InjectMocks
     private TeamServiceImpl teamService;
+
+    @Mock
+    private ResourceBundleMessageSource messageSource;
+    @InjectMocks
+    private I18nTranslate i18nTranslate;
 
     private Team team;
     private TeamVO teamVO;
@@ -74,8 +80,7 @@ class TeamServiceImplTest {
     void create_Failure_ThrowsBaseException() {
         when(repository.save(any(Team.class))).thenThrow(new RuntimeException("Database error"));
 
-        BaseException exception = assertThrows(BaseException.class, () -> teamService.create(teamVO));
-        assertEquals("Error creating team", exception.getMessage());
+        assertThrows(BaseException.class, () -> teamService.create(teamVO));
         verify(repository).save(any(Team.class));
         verifyNoInteractions(repositoryJpa);
     }
@@ -97,7 +102,7 @@ class TeamServiceImplTest {
     void update_TeamNotFound_ThrowsBaseException() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
-        Assertions.assertThrowsExactly(BaseException.class, () -> teamService.update(teamVO));
+        Assertions.assertThrowsExactly(TeamException.class, () -> teamService.update(teamVO));
 
         verify(repository).findById(1L);
     }
@@ -119,7 +124,7 @@ class TeamServiceImplTest {
     void removeMember_TeamNotFound_ThrowsBaseException() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
-        Assertions.assertThrowsExactly(ObjectNotFoundException.class, () -> teamService.removeMember(1L, 1L));
+        Assertions.assertThrowsExactly(TeamException.class, () -> teamService.removeMember(1L, 1L));
 
         verify(repository).findById(1L);
     }
@@ -148,7 +153,6 @@ class TeamServiceImplTest {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         BaseException exception = assertThrows(BaseException.class, () -> teamService.addMember(1L, 1L));
-        assertEquals("Team not found with id: 1", exception.getMessage());
         verify(repository).findById(1L);
 
     }
@@ -177,8 +181,8 @@ class TeamServiceImplTest {
     void delete_TeamNotFound_ThrowsBaseException() {
         when(repository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
-        BaseException exception = assertThrows(BaseException.class, () -> teamService.delete(1L));
-        assertEquals("Team not found with id: 1", exception.getMessage());
+        assertThrows(TeamException.class, () -> teamService.delete(1L));
+
         verify(repository).findById(Mockito.anyLong());
     }
 
@@ -196,8 +200,8 @@ class TeamServiceImplTest {
     void findById_TeamNotFound_ThrowsBaseException() {
         when(repository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
-        BaseException exception = assertThrows(BaseException.class, () -> teamService.findById(1L));
-        assertEquals("Team not found with id: 1", exception.getMessage());
+        assertThrows(TeamException.class, () -> teamService.findById(1L));
+
         verify(repository).findById(Mockito.anyLong());
     }
 }

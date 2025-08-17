@@ -164,11 +164,6 @@
         </dependency>
         <dependency>
             <groupId>br.com.systec.taskflow</groupId>
-            <artifactId>taskflow-kanban-jms</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>br.com.systec.taskflow</groupId>
             <artifactId>taskflow-team-api</artifactId>
             <scope>compile</scope>
         </dependency>
@@ -204,21 +199,6 @@
         </dependency>
         <dependency>
             <groupId>br.com.systec.taskflow</groupId>
-            <artifactId>taskflow-kanban-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>br.com.systec.taskflow</groupId>
-            <artifactId>taskflow-kanban-impl</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>br.com.systec.taskflow</groupId>
-            <artifactId>taskflow-kanban-public-v1</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>br.com.systec.taskflow</groupId>
             <artifactId>taskflow-task-api</artifactId>
             <scope>compile</scope>
         </dependency>
@@ -235,6 +215,21 @@
         <dependency>
             <groupId>br.com.systec.taskflow</groupId>
             <artifactId>taskflow-rabbitmq</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.taskflow</groupId>
+            <artifactId>taskflow-board-kanban-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.taskflow</groupId>
+            <artifactId>taskflow-board-kanban-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.taskflow</groupId>
+            <artifactId>taskflow-board-kanban-public-v1</artifactId>
             <scope>compile</scope>
         </dependency>
 

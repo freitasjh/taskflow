@@ -1,11 +1,8 @@
-<script setup lang="ts">
-import UpgradeToPro from '@/components/UpgradeToPro.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <VApp>
         <RouterView />
-        <UpgradeToPro />
     </VApp>
 </template>
 

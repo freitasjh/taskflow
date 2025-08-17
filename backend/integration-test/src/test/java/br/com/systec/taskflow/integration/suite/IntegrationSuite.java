@@ -1,14 +1,11 @@
 package br.com.systec.taskflow.integration.suite;
 
 import br.com.systec.taskflow.integration.employee.EmployeeControllerIT;
-import br.com.systec.taskflow.integration.kanban.controller.KanbanBoardControllerV1IT;
 import br.com.systec.taskflow.integration.login.LoginControllerIT;
 import br.com.systec.taskflow.integration.project.ProjectCategoryControllerIT;
 import br.com.systec.taskflow.integration.project.ProjectControllerV1IT;
 import br.com.systec.taskflow.integration.project.ProjectStatusControllerIT;
 import br.com.systec.taskflow.integration.task.controller.TaskControllerV1IT;
-import br.com.systec.taskflow.integration.workflow.controller.WorkflowControllerV1IT;
-import br.com.systec.taskflow.integration.workflow.status.controller.StatusControllerV1IT;
 import br.com.systec.taskflow.integration.team.TeamControllerV1IT;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.TestClassOrder;

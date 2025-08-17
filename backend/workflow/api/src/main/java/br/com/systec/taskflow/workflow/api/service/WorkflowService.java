@@ -19,4 +19,8 @@ public interface WorkflowService {
     StatusVO findStatusById(Long statusId) throws BaseException;
 
     StatusVO findInitialStatusByWorkflowId(Long workflowId) throws BaseException;
+
+    StatusVO getInitialStatusByProjectId(Long projectId) throws BaseException;
+
+    WorkflowVO findWorkflowByProjectId(Long projectId) throws BaseException;
 }

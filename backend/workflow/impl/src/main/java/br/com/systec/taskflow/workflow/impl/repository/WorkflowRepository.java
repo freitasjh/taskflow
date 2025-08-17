@@ -46,4 +46,18 @@ public class WorkflowRepository extends AbstractRepository<Workflow, Long> {
 
         return Optional.of(statusResultList.get(0));
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Optional<Workflow> findByProjectId(Long projectId) {
+        String sql = "SELECT w FROM Workflow w WHERE w.projectId = :projectId";
+        TypedQuery<Workflow> query = entityManager.createQuery(sql, Workflow.class);
+        query.setParameter("projectId", projectId);
+
+        List<Workflow> workflowResultList = query.getResultList();
+        if (workflowResultList.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(workflowResultList.get(0));
+    }
 }

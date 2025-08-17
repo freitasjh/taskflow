@@ -3,16 +3,17 @@ import { useHandlerMessage, useLoader } from "@/composoable/commons";
 import avatar1 from "@images/avatars/avatar-1.png";
 import { AxiosError } from "axios";
 import { defineProps } from "vue";
+import { useLocale } from "vuetify";
 import Team from "../../model/team";
 import { useTeamStore } from "../../store/teamStore";
 
 const teamStore = useTeamStore();
 const { handlerError, handlerToastSuccess } = useHandlerMessage();
 const { showLoading, hideLoading } = useLoader();
+const { t } = useLocale();
 
 const props = defineProps<{
     dialog?: boolean;
-    team?: Team;
 }>();
 
 const emit = defineEmits<{
@@ -25,7 +26,9 @@ const isVisible = computed(() => props.dialog);
 watch(
     () => teamStore.team,
     (newVal) => {
-        team.value = Object.assign(new Team(), newVal);
+        if (newVal) {
+            teamStore.team = Object.assign(team.value, newVal);
+        }
     },
     { immediate: true, deep: true }
 );
@@ -49,7 +52,7 @@ const closeDialog = () => {
 const save = async () => {
     try {
         showLoading();
-        handlerToastSuccess("Equipe salva com sucesso");
+        handlerToastSuccess(t("teamSaveSuccess"));
 
         await teamStore.save(team.value);
         await teamStore.findByFilter();
@@ -65,7 +68,7 @@ const save = async () => {
 const addMember = async () => {
     try {
         if (employeeSelected.value === null) {
-            handlerError("Informe o funcionario");
+            handlerError(t("informEmployee"));
             return;
         }
 
@@ -86,24 +89,27 @@ const removeMember = async (index: number) => {
     <VDialog v-model="isVisible" max-width="800px">
         <VCard>
             <VCardItem>
-                <VCardTitle class="text-h4">Equipe</VCardTitle>
+                <VCardTitle class="text-h4">{{ $t("team") }}</VCardTitle>
             </VCardItem>
             <VDivider />
             <VCardText>
                 <VForm class="mt-6">
                     <VRow>
                         <VCol md="12" cols="12">
-                            <VTextField v-model="team.name" label="Nome" />
+                            <VTextField v-model="team.name" :label="$t('name')" />
                         </VCol>
                         <VCol md="12" cols="12">
-                            <VTextField v-model="team.description" label="Descrição" />
+                            <VTextField
+                                v-model="team.description"
+                                :label="$t('description')"
+                            />
                         </VCol>
                         <VCol md="12" cols="12">
-                            <VTextField v-model="team.prefix" label="Prefixo" />
+                            <VTextField v-model="team.prefix" :label="$t('prefix')" />
                         </VCol>
                         <VCol md="12" cols="12">
                             <VSelect
-                                label="Funcionario"
+                                :label="$t('employees')"
                                 :items="pageEmployee?.content"
                                 item-title="name"
                                 v-model="employeeSelected"
@@ -151,7 +157,7 @@ const removeMember = async (index: number) => {
                                                     size="small"
                                                     @click="removeMember(index)"
                                                 >
-                                                    Remover
+                                                    {{ $t("remove") }}
                                                 </VBtn>
                                             </template>
                                         </VListItem>
@@ -163,7 +169,7 @@ const removeMember = async (index: number) => {
                             </VCard>
                         </VCol>
                         <VCol cols="12" class="d-flex flex-wrap gap-4">
-                            <VBtn @click="save">Save changes</VBtn>
+                            <VBtn @click="save">{{ $t("save") }}</VBtn>
 
                             <VBtn
                                 color="secondary"
@@ -171,7 +177,7 @@ const removeMember = async (index: number) => {
                                 type="reset"
                                 @click.prevent="closeDialog"
                             >
-                                Cancelar
+                                {{ $t("cancel") }}
                             </VBtn>
                         </VCol>
                     </VRow>

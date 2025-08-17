@@ -10,6 +10,8 @@ import br.com.systec.taskflow.project.api.vo.ProjectVO;
 import br.com.systec.taskflow.project.impl.repository.ProjectRepository;
 import br.com.systec.taskflow.project.impl.repository.jpa.ProjectRepositoryJpa;
 import br.com.systec.taskflow.rabbitmq.utils.RabbitMQConstants;
+import br.com.systec.taskflow.workflow.api.service.WorkflowService;
+import br.com.systec.taskflow.workflow.api.vo.StatusVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -25,12 +27,15 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository repository;
     private final ProjectRepositoryJpa repositoryJpa;
     private final RabbitTemplate rabbitTemplate;
+    private final WorkflowService workflowService;
+
 
     public ProjectServiceImpl(ProjectRepository repository, ProjectRepositoryJpa repositoryJpa,
-                              RabbitTemplate rabbitTemplate) {
+                              RabbitTemplate rabbitTemplate, WorkflowService workflowService) {
         this.repository = repository;
         this.repositoryJpa = repositoryJpa;
         this.rabbitTemplate = rabbitTemplate;
+        this.workflowService = workflowService;
     }
 
     @Override
@@ -84,5 +89,16 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new ObjectNotFoundException("Projeto não encontrado"));
 
         return ProjectConverter.toVO(projectReturn);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Long findInitialStatusWorkflow(Long projectId) throws BaseException {
+        try {
+            StatusVO statusVO = workflowService.getInitialStatusByProjectId(projectId);
+            return statusVO.getId();
+        } catch (Exception e) {
+            throw new BaseException(e);
+        }
     }
 }

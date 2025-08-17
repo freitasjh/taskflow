@@ -5,7 +5,7 @@ import Employee from "../model/employee";
 
 export const useEmployeeStore = defineStore("employee", {
     state: () => ({
-        employee: ref<Employee | null>(null),
+        employee: ref<Employee>(new Employee()),
         employeePage: ref<Page<Employee> | null>(null),
     }),
 
@@ -29,12 +29,12 @@ export const useEmployeeStore = defineStore("employee", {
             this.employee = await service.findById(id);
         },
 
-        clearEmployee() {
+        resetEmployee() {
             this.employee = new Employee();
         },
 
-        clearState() {
-            this.clearEmployee();
+        resetState() {
+            this.resetEmployee();
             this.employeePage = null;
         },
     },

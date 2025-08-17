@@ -4,16 +4,15 @@ import avatar1 from "@images/avatars/avatar-1.png";
 import { AxiosError } from "axios";
 import { vMaska } from "maska/vue";
 import { defineProps } from "vue";
-import Employee from "../../model/employee";
+import { useLocale } from "vuetify";
 import { useEmployeeStore } from "../../store/employeeStore";
 
 const employeeStore = useEmployeeStore();
 const { handlerError, handlerToastSuccess } = useHandlerMessage();
 const { showLoading, hideLoading } = useLoader();
-
+const { t } = useLocale();
 const props = defineProps<{
     dialog?: boolean;
-    employee?: Employee;
 }>();
 
 const emit = defineEmits<{
@@ -32,7 +31,7 @@ const refInputEl = ref<HTMLElement>();
 const accountDataLocal = ref(structuredClone(accountData));
 
 const resetForm = () => {
-    employeeStore.clearEmployee();
+    employeeStore.resetEmployee();
 };
 
 // changeAvatar function
@@ -65,6 +64,7 @@ const save = async () => {
         showLoading();
         await employeeStore.saveEmployee(employee.value);
         handlerToastSuccess("Funcionario salvo com sucesso");
+        await employeeStore.findByFilter();
         closeDialog();
     } catch (error: AxiosError | any) {
         handlerError(error);
@@ -78,16 +78,15 @@ const save = async () => {
     <VDialog v-model="isVisible" max-width="800px">
         <VCard>
             <VCardItem>
-                <VCardTitle class="text-h5">Adicionar Funcionário</VCardTitle>
+                <VCardTitle class="text-h5">{{ $t("employees") }}</VCardTitle>
             </VCardItem>
             <VDivider />
 
-            <VCardText>
+            <VCardText class="mt-3">
                 <VRow>
                     <VCol cols="12">
-                        <VCard title="Account Details">
-                            <VCardText class="d-flex">
-                                <!-- 👉 Avatar -->
+                        <VCard>
+                            <!-- <VCardText class="d-flex">
                                 <VAvatar
                                     rounded="lg"
                                     size="100"
@@ -95,7 +94,6 @@ const save = async () => {
                                     :image="accountDataLocal.avatarImg"
                                 />
 
-                                <!-- 👉 Upload Photo -->
                                 <form class="d-flex flex-column justify-center gap-5">
                                     <div class="d-flex flex-wrap gap-2">
                                         <VBtn
@@ -138,9 +136,9 @@ const save = async () => {
                                         Allowed JPG, GIF or PNG. Max size of 800K
                                     </p>
                                 </form>
-                            </VCardText>
+                            </VCardText> -->
 
-                            <VDivider />
+                            <!-- <VDivider /> -->
 
                             <VCardText>
                                 <!-- 👉 Form -->
@@ -205,7 +203,7 @@ const save = async () => {
                                         </VCol>
                                         <!-- 👉 Form Actions -->
                                         <VCol cols="12" class="d-flex flex-wrap gap-4">
-                                            <VBtn @click="save">Save changes</VBtn>
+                                            <VBtn @click="save">{{ t("save") }}</VBtn>
 
                                             <VBtn
                                                 color="secondary"
@@ -213,7 +211,7 @@ const save = async () => {
                                                 type="reset"
                                                 @click.prevent="closeDialog"
                                             >
-                                                Fechar
+                                                {{ $t("cancel") }}
                                             </VBtn>
                                         </VCol>
                                     </VRow>

@@ -3,6 +3,7 @@ import { useEmployeeStore } from "@/administrator/employee/store/employeeStore";
 import { useHandlerMessage, useLoader } from "@/composoable/commons";
 import { AxiosError } from "axios";
 import { onBeforeMount, ref } from "vue";
+import { useLocale } from "vuetify";
 import Employee from "../../model/employee";
 import EmployeeCad from "../view/employee-cad.vue";
 
@@ -11,7 +12,7 @@ const pageEmployee = computed(() => employeeStore.employeePage);
 const { handlerError } = useHandlerMessage();
 const isDialogVisible = ref(false);
 const isTableLoading = ref(false);
-
+const { t } = useLocale();
 const { showLoading, hideLoading } = useLoader();
 
 const headers = [
@@ -21,11 +22,11 @@ const headers = [
     { title: "Telefone", key: "phone" },
     { title: "Celular", key: "cellphone" },
     { title: "CPF", key: "federalId" },
-    { title: "Actions", key: "actions" },
+    { title: t("actions"), key: "actions" },
 ];
 
 onBeforeMount(async () => {
-    employeeStore.clearState(); //Limpa o estado sempre que entar na tela de lista de employee.
+    employeeStore.resetState(); //Limpa o estado sempre que entar na tela de lista de employee.
 
     await findByFilter();
 });
@@ -44,7 +45,7 @@ const findByFilter = async () => {
 const openCadEmployee = async (employeeSelected: Employee | null) => {
     try {
         showLoading();
-        employeeStore.clearEmployee();
+        employeeStore.resetEmployee();
         if (employeeSelected !== null) {
             await employeeStore.findById(employeeSelected.id);
         }
@@ -61,7 +62,7 @@ const openCadEmployee = async (employeeSelected: Employee | null) => {
     <div>
         <VRow>
             <VCol cols="12">
-                <VCard title="Funcionarios">
+                <VCard :title="$t('employees')">
                     <VCardText class="position-relative">
                         <div class="d-flex justify-space-between flex-wrap pt-2">
                             <VCol cols="4" class="d-flex gap-4">
@@ -70,10 +71,10 @@ const openCadEmployee = async (employeeSelected: Employee | null) => {
                                     size="large"
                                     @click="openCadEmployee(null)"
                                 >
-                                    Adicionar
+                                    {{ $t("add") }}
                                 </VBtn>
 
-                                <VTextField density="compact" label="Pesquisar" />
+                                <VTextField density="compact" :label="$t('find')" />
                             </VCol>
                         </div>
                     </VCardText>
@@ -106,5 +107,3 @@ const openCadEmployee = async (employeeSelected: Employee | null) => {
         />
     </div>
 </template>
-
-<style></style>

@@ -2,6 +2,7 @@
 import { useHandlerMessage, useLoader } from "@/composoable/commons";
 import { AxiosError } from "axios";
 import { onBeforeMount, ref } from "vue";
+import { useLocale } from "vuetify";
 import TeamResponse from "../../model/teamResponse";
 import { useTeamStore } from "../../store/teamStore";
 import TeamCad from "../view/team-cad.vue";
@@ -9,6 +10,7 @@ import TeamCad from "../view/team-cad.vue";
 const teamStore = useTeamStore();
 const { handlerError } = useHandlerMessage();
 const { showLoading, hideLoading } = useLoader();
+const { t } = useLocale();
 
 const teamPage = computed(() => teamStore.teamPage);
 const isDialogVisible = ref(false);
@@ -18,7 +20,7 @@ const headers = [
     { title: "ID", key: "id" },
     { title: "Equipe", key: "name" },
     { title: "Total de mebros", key: "totalMembers" },
-    { title: "Actions", key: "actions" },
+    { title: t("actions"), key: "actions" },
 ];
 
 onBeforeMount(async () => {
@@ -60,15 +62,15 @@ const openCadTeam = async (teamSelected: TeamResponse | null) => {
 <template>
     <VRow>
         <VCol cols="12">
-            <VCard title="Equipe">
+            <VCard :title="$t('team')">
                 <VCardText class="position-relative">
                     <div class="d-flex justify-space-between flex-wrap pt-2">
                         <VCol cols="4" class="d-flex gap-4">
                             <VBtn type="submit" size="large" @click="openCadTeam(null)">
-                                Adicionar
+                                {{ $t("add") }}
                             </VBtn>
 
-                            <VTextField density="compact" label="Pesquisar" />
+                            <VTextField density="compact" :label="$t('find')" />
                         </VCol>
                     </div>
                 </VCardText>

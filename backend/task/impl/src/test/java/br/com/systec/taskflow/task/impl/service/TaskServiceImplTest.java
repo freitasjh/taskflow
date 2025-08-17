@@ -3,7 +3,6 @@ package br.com.systec.taskflow.task.impl.service;
 import br.com.systec.taskflow.employee.api.service.EmployeeService;
 import br.com.systec.taskflow.employee.api.vo.EmployeeVO;
 import br.com.systec.taskflow.i18n.I18nTranslate;
-import br.com.systec.taskflow.kanban.api.service.KanbanService;
 import br.com.systec.taskflow.project.api.service.ProjectService;
 import br.com.systec.taskflow.project.api.vo.ProjectVO;
 import br.com.systec.taskflow.security.service.SecurityService;
@@ -49,8 +48,6 @@ class TaskServiceImplTest {
     @Mock
     private SecurityService securityService;
     @Mock
-    private KanbanService kanbanService;
-    @Mock
     private ProjectService projectService;
     @Mock
     private WorkflowService workflowService;
@@ -76,7 +73,6 @@ class TaskServiceImplTest {
         doReturn(taskToReturn).when(repository).save(any(Task.class));
         doReturn(1).when(repository).getNextCode();
         doReturn(1L).when(securityService).getCurrentEmployeeId();
-        doReturn(1L).when(kanbanService).getKanbanWorkflowInitial(anyLong());
         doReturn(projectVO).when(projectService).findById(anyLong());
 
         TaskVO taskSaved = service.create(taskToSave);
@@ -89,7 +85,6 @@ class TaskServiceImplTest {
         verify(repository).save(any(Task.class));
         verify(repository).getNextCode();
         verify(securityService).getCurrentEmployeeId();
-        verify(kanbanService).getKanbanWorkflowInitial(anyLong());
         verify(projectService).findById(anyLong());
     }
 

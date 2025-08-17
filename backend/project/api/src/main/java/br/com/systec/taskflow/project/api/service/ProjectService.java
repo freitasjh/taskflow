@@ -15,4 +15,6 @@ public interface ProjectService {
     Page<ProjectVO> findByFilter(ProjectFilter filter) throws BaseException;
 
     ProjectVO findById(Long id) throws BaseException;
+
+    Long findInitialStatusWorkflow(Long projectId) throws BaseException;
 }

@@ -30,6 +30,7 @@ public class Task extends BaseModel {
     @Column(name = "date_close")
     private LocalDateTime dateClose;
     @Column(name = "status")
+    @Enumerated(EnumType.ORDINAL)
     private TaskStatus status;
     @Column(name = "workflow_status")
     private Long workflowStatus;

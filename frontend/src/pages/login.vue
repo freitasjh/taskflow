@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AuthProvider from "@/views/pages/authentication/AuthProvider.vue";
-import { useTheme } from "vuetify";
+import { useLocale, useTheme } from "vuetify";
 
 import Login from "@/authenticate/model/login";
 import AuthService from "@/authenticate/service/authService";
@@ -23,6 +23,8 @@ const router = useRouter();
 
 const vuetifyTheme = useTheme();
 const { handlerError } = useHandlerMessage();
+
+const { current, t } = useLocale();
 
 const authThemeMask = computed(() => {
     return vuetifyTheme.global.name.value === "light" ? authV1MaskLight : authV1MaskDark;
@@ -61,8 +63,8 @@ const authenticate = async () => {
             </VCardItem>
 
             <VCardText class="pt-2">
-                <h4 class="text-h4 mb-1">Welcome to TaskFlow! 👋🏻</h4>
-                <p class="mb-0">Please sign-in to your account and start the adventure</p>
+                <h4 class="text-h4 mb-1">{{ $t("welcomeTaskflow") }} 👋🏻</h4>
+                <p class="mb-0">{{ $t("welcomeSubtitle") }}</p>
             </VCardText>
 
             <VCardText>
@@ -72,7 +74,7 @@ const authenticate = async () => {
                         <VCol cols="12">
                             <VTextField
                                 v-model="login.username"
-                                label="Email"
+                                :label="$t('email')"
                                 type="email"
                             />
                         </VCol>
@@ -81,7 +83,7 @@ const authenticate = async () => {
                         <VCol cols="12">
                             <VTextField
                                 v-model="login.password"
-                                label="Password"
+                                :label="t('password')"
                                 placeholder="············"
                                 :type="isPasswordVisible ? 'text' : 'password'"
                                 autocomplete="password"
@@ -110,7 +112,7 @@ const authenticate = async () => {
 
                             <!-- login button -->
                             <VBtn block type="submit" @click="authenticate">
-                                <div v-if="!loading">Login</div>
+                                <div v-if="!loading">{{ $t("login") }}</div>
                                 <v-progress-circular
                                     v-if="loading"
                                     indeterminate

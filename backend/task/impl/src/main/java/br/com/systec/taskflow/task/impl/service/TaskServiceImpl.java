@@ -4,7 +4,6 @@ import br.com.systec.taskflow.commons.exceptions.BaseException;
 import br.com.systec.taskflow.employee.api.service.EmployeeService;
 import br.com.systec.taskflow.employee.api.vo.EmployeeVO;
 import br.com.systec.taskflow.i18n.I18nTranslate;
-import br.com.systec.taskflow.kanban.api.service.KanbanService;
 import br.com.systec.taskflow.project.api.service.ProjectService;
 import br.com.systec.taskflow.project.api.vo.ProjectVO;
 import br.com.systec.taskflow.security.service.SecurityService;
@@ -36,18 +35,16 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepositoryJPA repositoryJPA;
     private final EmployeeService employeeService;
     private final SecurityService securityService;
-    private final KanbanService kanbanService;
     private final WorkflowService workflowService;
     private final ProjectService projectService;
 
     public TaskServiceImpl(TaskRepository repository, TaskRepositoryJPA repositoryJPA, EmployeeService employeeService,
-                           SecurityService securityService, KanbanService kanbanService, WorkflowService workflowService,
+                           SecurityService securityService, WorkflowService workflowService,
                            ProjectService projectService) {
         this.repository = repository;
         this.repositoryJPA = repositoryJPA;
         this.employeeService = employeeService;
         this.securityService = securityService;
-        this.kanbanService = kanbanService;
         this.workflowService = workflowService;
         this.projectService = projectService;
     }
@@ -66,7 +63,7 @@ public class TaskServiceImpl implements TaskService {
 
             taskToSave.addComment(I18nTranslate.toLocale("create.task.observation"), taskToSave.getCreatedBy());
 
-            Long workflowStatusFirst = kanbanService.getKanbanWorkflowInitial(taskVO.getTeamId());
+            Long workflowStatusFirst = projectService.findInitialStatusWorkflow(taskVO.getProjectId());
             taskToSave.setWorkflowStatus(workflowStatusFirst);
 
             Task taskSaved = repository.save(taskToSave);

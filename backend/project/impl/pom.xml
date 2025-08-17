@@ -35,6 +35,11 @@
             <groupId>br.com.systec.taskflow</groupId>
             <artifactId>taskflow-rabbitmq</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>br.com.systec.taskflow</groupId>
+            <artifactId>taskflow-workflow-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
